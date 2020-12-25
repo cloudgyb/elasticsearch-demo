@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "es.host",
+      "type": "java.lang.String",
+      "description": "The host of elasticsearch server.",
+      "defaultValue": "localhost"
+    },
+    {
+      "name": "es.port",
+      "type": "java.lang.Integer",
+      "description": "The port of elasticsearch server.",
+      "defaultValue": 9200
+    }
+  ]
+}
