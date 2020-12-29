@@ -4,6 +4,7 @@ import com.gyb.elasticsearch.demo.entity.db.Book;
 import com.gyb.elasticsearch.demo.entity.es.ESBook;
 import com.gyb.elasticsearch.demo.service.BookService;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,16 +27,24 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    public Map<String,String> addBook(@RequestBody Book book){
+    public Map<String, String> addBook(@RequestBody Book book) {
         bookService.addBook(book);
-        Map<String,String> map = new HashMap<>();
-        map.put("msg","ok");
+        Map<String, String> map = new HashMap<>();
+        map.put("msg", "ok");
         return map;
     }
 
     @GetMapping("/book/search")
-    public SearchHits<ESBook> search(String key){
-        return bookService.searchBook1(key);
+    public Map<String, Object> search(String key) {
+        final HashMap<String, Object> map = new HashMap<>();
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        final SearchHits<ESBook> searchHits = bookService.searchBook1(key);
+        stopWatch.stop();
+        map.put("res",searchHits);
+        final double totalTimeSeconds = stopWatch.getTotalTimeSeconds();
+        map.put("elapsedTime",totalTimeSeconds);
+        return map;
     }
 
 }

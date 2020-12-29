@@ -19,9 +19,9 @@ public class ESBook {
     @Id
     @Field(type = FieldType.Text)
     private String id;
-    @Field(analyzer="ik_max_word")
+    @Field(type=FieldType.Text,analyzer="ik_max_word")
     private String title;
-    @Field(analyzer="ik_max_word")
+    @Field(type=FieldType.Text,analyzer="ik_max_word")
     private String author;
     @Field(type = FieldType.Double)
     private Double price;

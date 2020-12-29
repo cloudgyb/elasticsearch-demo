@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,6 +33,8 @@ public class BookService {
     }
 
     public void addBook(Book book) {
+        book.setCreateTime(new Date());
+        book.setUpdateTime(new Date());
         final Book saveBook = transactionTemplate.execute((status) ->
                 bookRepository.save(book)
         );

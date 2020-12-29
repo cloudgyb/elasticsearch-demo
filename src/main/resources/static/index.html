@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Elasticsearch Demo</title>
+        <style>
+            input{
+                height: 30px;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="width: 400px;height: 300px;
+            margin: 0 auto;padding: 20px;box-shadow:#ccc 0 0 10px">
+            <h2>添加书籍信息</h2>
+            <label for="t"></label>
+            <input id="t" name="title" type="text" placeholder="书名" required/>
+            <label for="a"></label>
+            <input id="a" name="author" type="text" placeholder="作者" required/>
+            <label for="p"></label>
+            <input id="p" name="price" type="text" placeholder="价格" required/>
+            <button onclick="addBook()" style="width: 100%;height: 35px">添加</button>
+        </div>
+        <div style="width: 600px;
+            margin: 0 auto;padding: 20px;">
+            <button onclick="goSearch()" style="text-align: center;
+                            width: 100%;height: 50px;background-color: #2498f1;
+                            border: none;color: aliceblue">搜索书籍</button>
+        </div>
+    </body>
+    <script>
+        function goSearch(){
+            window.open("/search.html","_blank")
+        }
+        function addBook() {
+            let data = {
+                "title": document.getElementById("t").value,
+                "author":document.getElementById("a").value,
+                "price":document.getElementById("p").value
+            }
+            if(data.title.trim()==='' ||
+                data.author.trim()==='' || data.price.trim()===''){
+                alert("请补全信息再提交！")
+                return;
+            }
+            if(isNaN(parseFloat(data.price.trim()))){
+                alert("价格不合法！")
+                return;
+            }
+            let request = new XMLHttpRequest();
+            request.open("post", "/book", true);
+            request.setRequestHeader("Content-Type", "application/json")
+            request.send(JSON.stringify(data));
+            request.onload = function () {
+                if(this.status === 200){
+                    alert("添加成功！")
+                }else{
+                    alert("添加失败！")
+                }
+            }
+            request.onerror = function (){
+                alert("请求失败！")
+            }
+        }
+    </script>
+</html>

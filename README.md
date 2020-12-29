@@ -43,3 +43,4 @@ create table t_book
 ```shell
 ./mvnw spring-boot:run
 ```
+5. 访问http://localhost:8080 进入首页进行书籍信息的添加和搜索

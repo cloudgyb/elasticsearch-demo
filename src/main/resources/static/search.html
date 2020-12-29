@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>搜索书籍</title>
+    </head>
+    <body>
+        <div style="width: 600px;
+            margin: 0 auto;padding: 20px;">
+            <label for="key"></label>
+            <input id="key" onkeypress="search(event)"
+                   placeholder="输入关键字，回车" style="text-align: center;
+                            width: 100%;height: 50px;outline: none;
+                            border: #2498f1 1px solid;border-radius: 10px;font-size: 30px">
+            <div style="margin-top: 50px">
+                <label for="res">搜索结果：</label>
+                <span id="time" style="float: right"></span>
+                <textarea disabled id="res" name="" rows="30"
+                          style="width: 100%;border: 1px #ccc solid;outline: none"></textarea>
+            </div>
+        </div>
+        <script>
+            function search(e) {
+                if (e.keyCode === 13) {
+                    searchBook(document.getElementById("key").value)
+                }
+                console.log(e)
+            }
+
+            function searchBook(key) {
+                if (key === undefined || key.trim() === '') {
+                    document.getElementById("res").value = ''
+                    document.getElementById("time").innerHTML=''
+                    return;
+                }
+                let request = new XMLHttpRequest();
+                request.open("get", "/book/search?key=" + key, true);
+                request.send();
+                request.onload = function () {
+                    if (this.status === 200) {
+                        let parse = JSON.parse(this.responseText);
+                        document.getElementById("res").value = this.response
+                        document.getElementById("time").innerHTML='耗时：' + parse.elapsedTime + 's'
+                    } else {
+                        alert("搜索失败！")
+                    }
+                }
+                request.onerror = function () {
+                    alert("请求失败！")
+                }
+            }
+        </script>
+    </body>
+</html>
